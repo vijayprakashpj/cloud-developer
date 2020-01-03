@@ -1,13 +1,14 @@
 export const config = {
   "dev": {
-    "username": "udagramprakashdb",
-    "password": "udagramprakashdb",
-    "database": "udagramprakashdb",
-    "host": "udagramprakashdb.cn2v3lkfle7w.eu-central-1.rds.amazonaws.com",
-    "dialect": "postgres",
-    "aws_region": "eu-central-1",
-    "aws_profile": "default",
-    "aws_media_bucket": "udagram-prakash-dev"
+    "username": process.env.POSTGRES_USERNAME,
+    "password": process.env.POSTGRES_PASSWORD,
+    "database": process.env.POSTGRES_DATABASE,
+    "host": process.env.POSTGRES_HOST,
+    "dialect": process.env.POSTGRES_DIALECT,
+    "aws_region": process.env.AWS_REGION,
+    "aws_profile": process.env.AWS_PROFILE,
+    "aws_media_bucket": process.env.AWS_MEDIA_BUCKET,
+    "jwt_secret": process.env.JWT_SECRET
   },
   "prod": {
     "username": "",
