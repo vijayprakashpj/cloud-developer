@@ -7,9 +7,6 @@ import * as jwt from 'jsonwebtoken';
 import { NextFunction } from 'connect';
 
 import * as EmailValidator from 'email-validator';
-import { resolve } from 'bluebird';
-import { int } from 'aws-sdk/clients/datapipeline';
-import { bool } from 'aws-sdk/clients/signer';
 import { config } from '../../../../config/config';
 
 const router: Router = Router();
@@ -29,6 +26,7 @@ async function comparePasswords(plainTextPassword: string, hash: string): Promis
 }
 
 function generateJWT(user: User): string {
+    console.log(user)
     return jwt.sign(user, config.dev.jwt_secret);
 }
 
@@ -85,7 +83,7 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     // Generate JWT
-    const jwt = generateJWT(user);
+    const jwt = generateJWT(user.toJSON());
 
     res.status(200).send({ auth: true, token: jwt, user: user.short()});
 });
