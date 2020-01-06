@@ -24,7 +24,7 @@ router.get("/",
         });
     } catch (ex) {
         console.log(ex);
-        res.status(500).send("Unable to process the image.");
+        res.status(422).send("Unable to process the image.");
     }
 })
 
