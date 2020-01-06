@@ -6,23 +6,29 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8082/filteredimage?image_url=https://timedotcom.files.wordpress.com/2019/03/kitten-report.jpg",
+			"name": "Filtered Image Request",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{HOST}}/filteredimage?image_url=https://timedotcom.files.wordpress.com/2019/03/kitten-report.jpg",
+					"raw": "http://{{HOST}}/api/v0/filteredimage?image_url=https://timedotcom.files.wordpress.com/2019/03/kitten-report.jpg&api_key={{api_key}}",
 					"protocol": "http",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
+						"api",
+						"v0",
 						"filteredimage"
 					],
 					"query": [
 						{
 							"key": "image_url",
 							"value": "https://timedotcom.files.wordpress.com/2019/03/kitten-report.jpg"
+						},
+						{
+							"key": "api_key",
+							"value": "{{api_key}}"
 						}
 					]
 				}
@@ -54,13 +60,13 @@
 	],
 	"variable": [
 		{
-			"id": "1c5eb456-d438-4b88-896e-7a9339081a9f",
+			"id": "bae26c43-eb57-417c-a078-1d333a940359",
 			"key": "HOST",
 			"value": "udagram-prakash-image-filter-dev-prod.eu-central-1.elasticbeanstalk.com",
 			"type": "string"
 		},
 		{
-			"id": "43374f69-2102-4251-a0ad-e98342a78a5e",
+			"id": "a12bef43-476c-48ac-ab66-5767f5366e4e",
 			"key": "api_key",
 			"value": "NmQxMDYxZDYzNWVjNGRhY2E4Mzk2ZWUyMWE1Y2ExNzY",
 			"type": "string"
