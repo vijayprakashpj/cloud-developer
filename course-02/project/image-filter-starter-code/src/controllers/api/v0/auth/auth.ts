@@ -11,13 +11,13 @@ export function requiresAuth(req: Request, res: Response, next: NextFunction) {
     }
 
     if (!api_key) {
-        return res.status(403).send("API key is missing.");
+        return res.status(401).send("API key is missing.");
     }
 
     // Compare the API key values
     if (api_key == config.api_key) {
         return next();
     } else {
-        return res.status(403).send("Not authorized.");
+        return res.status(401).send("Not authorized.");
     }
 }
