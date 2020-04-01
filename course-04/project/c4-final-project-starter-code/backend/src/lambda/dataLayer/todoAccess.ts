@@ -85,7 +85,7 @@ export class TodoAccess {
         ':name': todo.name,
         ':dueDate': todo.dueDate,
         ':done': todo.done,
-        ':attachmentUrl': todo.attachmentUrl || ''
+        ':attachmentUrl': todo.attachmentUrl || null
       }
     }).promise();
   }
@@ -119,7 +119,8 @@ const createDynamoDBClient = () => {
     console.log('Creating a local DynamoDB instance');
     return new XAWS.DynamoDB.DocumentClient({
       region: 'localhost',
-      endpoint: 'http://localhost:8000'
+      endpoint: 'http://localhost:8000',
+      convertEmptyValues: true
     });
   }
 
