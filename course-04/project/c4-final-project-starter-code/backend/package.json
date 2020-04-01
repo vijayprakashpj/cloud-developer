@@ -12,10 +12,10 @@
     "source-map-support": "^0.5.11",
     "unfetch": "^4.1.0",
     "uuid": "^3.3.2",
-    "aws-sdk": "^2.649.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "aws-sdk": "^2.649.0",
     "@types/aws-lambda": "^8.10.17",
     "@types/axios": "^0.14.0",
     "@types/http-errors": "^1.6.1",

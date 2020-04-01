@@ -6,17 +6,32 @@ import { cors } from 'middy/middlewares';
 
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest';
 import { createTodo } from '../businessLogic/todos';
+import { createLogger } from '../../utils/logger';
+import { inspect } from 'util';
+
+const logger = createLogger('createTodo');
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const newTodoRequest: CreateTodoRequest = JSON.parse(event.body)
+  logger.info(`Processing createTodo request: ${inspect(event, {depth: null})}`);
 
-  const newTodo = await createTodo(newTodoRequest, event);
+  try {
+    const newTodoRequest: CreateTodoRequest = JSON.parse(event.body);
 
-  return {
-    statusCode: 201,
-    body: JSON.stringify({
-      item: newTodo
-    })
+    const newTodo = await createTodo(newTodoRequest, event);
+
+    return {
+      statusCode: 201,
+      body: JSON.stringify({
+        item: newTodo
+      })
+    };
+  }
+  catch(ex) {
+    logger.error(`Unable to create the todo. Error: ${ex.toString()}`);
+    return {
+      statusCode: 500,
+      body: `Unable to create the todo.`
+    };
   }
 })
 

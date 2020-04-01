@@ -9,14 +9,24 @@ import { createLogger } from '../../utils/logger';
 const logger = createLogger('getTodos');
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  logger.info('Processing getTodos request for event: ', event);
-  const allTodos = await getTodos(event);
+  logger.info(`Processing getTodos request for event: ${event}`);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      items: allTodos
-    })
+  try {
+    const allTodos = await getTodos(event);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        items: allTodos
+      })
+    }
+  }
+  catch(ex) {
+    logger.info(`Unable to fetch todos. Error: ${ex.toString()}`);
+    return {
+      statusCode: 500,
+      body: `Unable to fetch todos`
+    }
   }
 })
 

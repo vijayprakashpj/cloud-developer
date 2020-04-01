@@ -38,6 +38,7 @@ export const deleteTodo = async (todoId: string, event: APIGatewayEvent) => {
     throw new Error(`Todo (${todoId}) not found`);
   }
 
+  await todoAccess.deleteS3Object(todoId);
   await todoAccess.deleteTodo(todoId, userId);
 }
 
@@ -65,9 +66,13 @@ export const getAttachmentUploadUrl = async (todoId: string, event: APIGatewayEv
   }
 
   const uploadUrl = await todoAccess.getS3SignedUrl(todoId);
-  todo.attachmentUrl = uploadUrl;
+  todo.attachmentUrl = todoAccess.getS3Url(todoId);
 
   await todoAccess.updateTodo(todoId, userId, todo);
 
   return uploadUrl;
+}
+
+export const deleteAttachment = async (todoId: string) => {
+  todoAccess.deleteS3Object(todoId);
 }

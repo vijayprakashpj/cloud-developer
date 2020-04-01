@@ -99,6 +99,19 @@ export class TodoAccess {
       Expires: this.signedUrlExpiry
     });
   }
+
+  public getS3Url(todoId: string) {
+    return `https://${this.attachmentsBucket}.s3.amazonaws.com/${todoId}`
+  }
+
+  public deleteS3Object(todoId: string) {
+    const s3 = createS3Client();
+
+    s3.deleteObject({
+      Bucket: this.attachmentsBucket,
+      Key: todoId
+    }).promise();
+  }
 }
 
 const createDynamoDBClient = () => {
