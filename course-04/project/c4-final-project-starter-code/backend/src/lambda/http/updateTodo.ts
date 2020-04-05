@@ -5,7 +5,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
 import * as middy from 'middy';
 import { cors } from 'middy/middlewares';
-import { updateTodo } from '../businessLogic/todos';
+import { updateTodo } from '../../businessLogic/todos';
 import { createLogger } from '../../utils/logger';
 import { inspect } from 'util';
 

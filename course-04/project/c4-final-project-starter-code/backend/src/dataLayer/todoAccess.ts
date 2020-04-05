@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 import * as AWSXRay from 'aws-xray-sdk';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
-import { TodoItem } from '../../models/TodoItem';
+import { TodoItem } from '../models/TodoItem';
 
 const XAWS = AWSXRay.captureAWS(AWS);
 
@@ -12,8 +12,6 @@ export class TodoAccess {
     private readonly dynamoDBClient: DocumentClient = createDynamoDBClient(),
     private readonly todoTable = process.env.TODOS_TABLE_NAME,
     private readonly todoIndex = process.env.TODOS_USERID_INDEX_NAME,
-    private readonly attachmentsBucket = process.env.ATTACHMENTS_BUCKET,
-    private readonly signedUrlExpiry = parseInt(process.env.SIGNED_URL_EXPIRATION)
   ) {}
 
   public createTodo = async (todo: TodoItem) : Promise<TodoItem> => {
@@ -89,29 +87,6 @@ export class TodoAccess {
       }
     }).promise();
   }
-
-  public getS3SignedUrl(todoId: string) {
-    const s3 = createS3Client();
-
-    return s3.getSignedUrl('putObject', {
-      Bucket: this.attachmentsBucket,
-      Key: todoId,
-      Expires: this.signedUrlExpiry
-    });
-  }
-
-  public getS3Url(todoId: string) {
-    return `https://${this.attachmentsBucket}.s3.amazonaws.com/${todoId}`
-  }
-
-  public deleteS3Object(todoId: string) {
-    const s3 = createS3Client();
-
-    s3.deleteObject({
-      Bucket: this.attachmentsBucket,
-      Key: todoId
-    }).promise();
-  }
 }
 
 const createDynamoDBClient = () => {
@@ -125,10 +100,4 @@ const createDynamoDBClient = () => {
   }
 
   return new XAWS.DynamoDB.DocumentClient();
-}
-
-const createS3Client = () => {
-  return new XAWS.S3({
-    signatureVersion: 'v4'
-  });
 }

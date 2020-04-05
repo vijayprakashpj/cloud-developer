@@ -5,7 +5,7 @@ import * as middy from 'middy';
 import { cors } from 'middy/middlewares';
 
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest';
-import { createTodo } from '../businessLogic/todos';
+import { createTodo } from '../../businessLogic/todos';
 import { createLogger } from '../../utils/logger';
 import { inspect } from 'util';
 

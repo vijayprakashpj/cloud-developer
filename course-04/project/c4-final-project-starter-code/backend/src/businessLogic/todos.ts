@@ -1,10 +1,10 @@
 import { TodoAccess } from '../dataLayer/todoAccess';
-import { TodoItem } from '../../models/TodoItem';
-import { CreateTodoRequest } from '../../requests/CreateTodoRequest';
-import { getUserId } from '../utils';
+import { TodoItem } from '../models/TodoItem';
+import { CreateTodoRequest } from '../requests/CreateTodoRequest';
+import { getUserId } from '../lambda/utils';
 import * as uuid from 'uuid';
 import { APIGatewayProxyEvent, APIGatewayEvent } from 'aws-lambda';
-import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest';
+import { UpdateTodoRequest } from '../requests/UpdateTodoRequest';
 
 const todoAccess = new TodoAccess();
 
@@ -38,7 +38,6 @@ export const deleteTodo = async (todoId: string, event: APIGatewayEvent) => {
     throw new Error(`Todo (${todoId}) not found`);
   }
 
-  await todoAccess.deleteS3Object(todoId);
   await todoAccess.deleteTodo(todoId, userId);
 }
 
@@ -57,7 +56,7 @@ export const updateTodo = async (todoId: string, updateTodoRequest: UpdateTodoRe
   await todoAccess.updateTodo(todoId, userId, todoToUpdate);
 }
 
-export const getAttachmentUploadUrl = async (todoId: string, event: APIGatewayEvent) => {
+export const updateAttachmentUrl = async (todoId: string, attachmentUrl: string, event: APIGatewayEvent) => {
   const userId = getUserId(event);
   const todo = await todoAccess.getTodo(todoId, userId);
 
@@ -65,14 +64,7 @@ export const getAttachmentUploadUrl = async (todoId: string, event: APIGatewayEv
     throw new Error(`Todo (${todoId}) not found`);
   }
 
-  const uploadUrl = await todoAccess.getS3SignedUrl(todoId);
-  todo.attachmentUrl = todoAccess.getS3Url(todoId);
+  todo.attachmentUrl = attachmentUrl;
 
   await todoAccess.updateTodo(todoId, userId, todo);
-
-  return uploadUrl;
-}
-
-export const deleteAttachment = async (todoId: string) => {
-  todoAccess.deleteS3Object(todoId);
 }
