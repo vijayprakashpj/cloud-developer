@@ -9,7 +9,7 @@ import { inspect } from 'util';
 import * as AWS from 'aws-sdk';
 import * as AWSXray from 'aws-xray-sdk';
 
-const XAWS = AWSXray.capture(AWS);
+const XAWS = AWSXray.captureAWS(AWS);
 const s3 = new XAWS.S3({
   signatureVersion: 'v4'
 });
